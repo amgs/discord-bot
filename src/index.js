@@ -1,9 +1,14 @@
 // https://discord.com/oauth2/authorize?client_id=816862027481481286&scope=bot
 
 const dotenv = require('dotenv');
-dotenv.config();
-
 const Discord = require('discord.js');
+const fs = require('fs');
+
+dotenv.config();
+const admin_id = process.env.ADMIN_ID;
+const admin_name = process.env.ADMIN_NAME;
+const discord_token = process.env.TOKEN;
+
 const intents = new Discord.Intents([
   Discord.Intents.ALL,
   "GUILD_MEMBERS",
@@ -12,12 +17,7 @@ const intents = new Discord.Intents([
   "GUILD_BANS"
 ]);
 const client = new Discord.Client({ ws: { intents } });
-client.login(process.env.TOKEN);
-
-
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-});
+client.login(discord_token);
 
 async function clear_channel_messages(channel){
   let fetched;
@@ -30,10 +30,16 @@ async function clear_channel_messages(channel){
   while(fetched.size >= 0);
 }
 
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+
 client.on('message', msg => {
-  if (msg.author.id === "366217565506240513") {
-    if (msg.content === '!ping') {
-      msg.reply('pong!');
+  if (msg.author.id === admin_id) {    
+    if (msg.content === '!warning') {
+      const messages = JSON.parse(fs.readFileSync('messages.json', 'utf-8'));
+      msg.channel.send(messages.warning);
     }
 
     if (msg.content === "!kickall") {
@@ -41,7 +47,7 @@ client.on('message', msg => {
         .then(guildMembers => {
           for (const entry of guildMembers.entries()) {
             const member = entry[1];
-            if (!["UAL", "amgs"].includes(member.user.username)) {
+            if (!["UAL", admin_name].includes(member.user.username)) {
               console.log(member.user.username);
               member.kick();
             };

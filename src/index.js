@@ -36,6 +36,11 @@ client.on('ready', () => {
 
 
 client.on('message', msg => {
+  if (msg.content === '!about') {
+    const messages = JSON.parse(fs.readFileSync('messages.json', 'utf-8'));
+    msg.channel.send(messages.about);
+  }
+
   if (msg.author.id === admin_id) {    
     if (msg.content === '!warning') {
       const messages = JSON.parse(fs.readFileSync('messages.json', 'utf-8'));

@@ -4,8 +4,9 @@ This is a sample Bot with some mod operation for course servers.
 
 ## Operations
 
-- !warning : Prints a warning message about pending channel cleanup.
-- !kick : Kicks out everyone in the channel.
+- !about : Sends a channel message with the GitHub repo url.
+- !warning : Sends a channel message with a warning about pending channel cleanup.
+- !kickall : Kicks out everyone in the channel.
 - !clearall : Deletes the message history.
 
 ## Setup

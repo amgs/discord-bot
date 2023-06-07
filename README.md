@@ -1,4 +1,4 @@
-# UAL Discord Bot
+# IADE Discord Bot
 
 This is a sample Bot with some mod operation for course servers.
 
